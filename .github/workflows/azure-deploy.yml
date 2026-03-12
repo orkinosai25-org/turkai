@@ -1,0 +1,173 @@
+name: TürkAI — Build and Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  FUNCTIONS_DOTNET_VERSION: '8.0.x'
+  AZURE_RESOURCE_GROUP: turkai-rg
+  INFRA_LOCATION: westeurope
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore turkai.slnx
+
+      - name: Build solution
+        run: dotnet build turkai.slnx --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test turkai.slnx --no-build --configuration Release --verbosity normal
+
+      - name: Publish API
+        run: dotnet publish src/TurkAI.API/TurkAI.API.csproj -c Release -o ./publish/api
+
+      - name: Publish Web
+        run: dotnet publish src/TurkAI.Web/TurkAI.Web.csproj -c Release -o ./publish/web
+
+      - name: Setup .NET ${{ env.FUNCTIONS_DOTNET_VERSION }} (for Functions)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.FUNCTIONS_DOTNET_VERSION }}
+
+      - name: Publish Functions
+        run: dotnet publish src/TurkAI.Functions/TurkAI.Functions.csproj -c Release -o ./publish/functions
+
+      - name: Upload API artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: turkai-api
+          path: ./publish/api
+
+      - name: Upload Web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: turkai-web
+          path: ./publish/web
+
+      - name: Upload Functions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: turkai-functions
+          path: ./publish/functions
+
+  # ──────────────────────────────────────────────────────────────────────────
+  deploy-infra:
+    name: Deploy Infrastructure (Bicep)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Bicep infrastructure
+        uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
+          template: ./infra/main.bicep
+          parameters: >
+            projectName=turkai
+            location=${{ env.INFRA_LOCATION }}
+          failOnStdErr: false
+
+  # ──────────────────────────────────────────────────────────────────────────
+  deploy-api:
+    name: Deploy API to Azure Web App
+    runs-on: ubuntu-latest
+    needs: deploy-infra
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: production
+
+    steps:
+      - name: Download API artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: turkai-api
+          path: ./publish/api
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy API to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_API_APP_NAME }}
+          package: ./publish/api
+
+  # ──────────────────────────────────────────────────────────────────────────
+  deploy-web:
+    name: Deploy Blazor Web to Azure Web App
+    runs-on: ubuntu-latest
+    needs: deploy-infra
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: production
+
+    steps:
+      - name: Download Web artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: turkai-web
+          path: ./publish/web
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Web to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEB_APP_NAME }}
+          package: ./publish/web
+
+  # ──────────────────────────────────────────────────────────────────────────
+  deploy-functions:
+    name: Deploy Azure Functions
+    runs-on: ubuntu-latest
+    needs: deploy-infra
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: production
+
+    steps:
+      - name: Download Functions artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: turkai-functions
+          path: ./publish/functions
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Azure Functions
+        uses: azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.AZURE_FUNCTIONS_APP_NAME }}
+          package: ./publish/functions

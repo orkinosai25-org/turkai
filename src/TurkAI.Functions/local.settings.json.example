@@ -1,0 +1,30 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+
+    "AzureOpenAI__Endpoint": "",
+    "AzureOpenAI__Key": "",
+    "AzureOpenAI__DeploymentName": "gpt-4o",
+
+    "AzureTranslator__Key": "",
+    "AzureTranslator__Region": "westeurope",
+
+    "AzureSpeech__Key": "",
+    "AzureSpeech__Region": "westeurope",
+
+    "AzureLanguage__Endpoint": "",
+    "AzureLanguage__Key": "",
+
+    "AzureVision__Endpoint": "",
+    "AzureVision__Key": "",
+
+    "AzureVideoIndexer__AccountId": "",
+    "AzureVideoIndexer__Location": "trial",
+    "AzureVideoIndexer__SubscriptionKey": "",
+
+    "AzurePersonalizer__Endpoint": "",
+    "AzurePersonalizer__Key": ""
+  }
+}
