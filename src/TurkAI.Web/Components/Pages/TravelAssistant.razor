@@ -1,0 +1,134 @@
+@page "/chat"
+@inject HttpClient Http
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<PageTitle>TürkAI — Chat</PageTitle>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h2 class="mb-4">💬 Chat with TürkAI</h2>
+
+            <div class="chat-language-selector mb-3">
+                <label class="me-2 fw-semibold">Language:</label>
+                <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" id="lang-en" name="language"
+                           checked="@(_language == "en")" @onchange="@(() => _language = "en")" />
+                    <label class="btn btn-outline-primary btn-sm" for="lang-en">🇬🇧 English</label>
+
+                    <input type="radio" class="btn-check" id="lang-tr" name="language"
+                           checked="@(_language == "tr")" @onchange="@(() => _language = "tr")" />
+                    <label class="btn btn-outline-primary btn-sm" for="lang-tr">🇹🇷 Türkçe</label>
+                </div>
+            </div>
+
+            <div class="chat-window border rounded p-3 mb-3 bg-light" style="height:450px;overflow-y:auto;" id="chatWindow">
+                @if (_messages.Count == 0)
+                {
+                    <div class="text-center text-muted mt-5">
+                        <p class="fs-5">🇹🇷 Ask me anything about Türkiye!</p>
+                        <p class="small">Try: "What are the best places to visit in Istanbul?" or "Ne zaman Kapadokya'ya gidebilirim?"</p>
+                    </div>
+                }
+                @foreach (var msg in _messages)
+                {
+                    <div class="d-flex @(msg.IsUser ? "justify-content-end" : "justify-content-start") mb-2">
+                        <div class="chat-bubble @(msg.IsUser ? "chat-bubble-user" : "chat-bubble-ai")">
+                            @msg.Content
+                        </div>
+                    </div>
+                }
+                @if (_isLoading)
+                {
+                    <div class="d-flex justify-content-start mb-2">
+                        <div class="chat-bubble chat-bubble-ai">
+                            <span class="typing-indicator">
+                                <span></span><span></span><span></span>
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="input-group">
+                <input @bind="_userInput" @bind:event="oninput"
+                       @onkeydown="HandleKeyDown"
+                       class="form-control"
+                       placeholder="@(_language == "tr" ? "Türkiye hakkında bir şey sorun..." : "Ask about Türkiye...")"
+                       disabled="@_isLoading" />
+                <button class="btn btn-primary" @onclick="SendMessage" disabled="@(_isLoading || string.IsNullOrWhiteSpace(_userInput))">
+                    @(_isLoading ? "..." : "Send")
+                </button>
+            </div>
+
+            @if (_errorMessage is not null)
+            {
+                <div class="alert alert-danger mt-2">@_errorMessage</div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string _language = "en";
+    private string _userInput = string.Empty;
+    private bool _isLoading;
+    private string? _errorMessage;
+    private string? _sessionId;
+    private readonly List<ChatBubble> _messages = [];
+    private readonly List<TurkAI.Shared.Models.ChatMessage> _history = [];
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(_userInput)) return;
+
+        var userText = _userInput.Trim();
+        _userInput = string.Empty;
+        _errorMessage = null;
+        _messages.Add(new ChatBubble(userText, IsUser: true));
+        _history.Add(new TurkAI.Shared.Models.ChatMessage("user", userText, DateTimeOffset.UtcNow));
+        _isLoading = true;
+
+        await JS.InvokeVoidAsync("scrollToBottom", "chatWindow");
+
+        try
+        {
+            var request = new TurkAI.Shared.Models.ChatRequest
+            {
+                Message = userText,
+                Language = _language,
+                SessionId = _sessionId,
+                History = _history.SkipLast(1).TakeLast(10).ToList()
+            };
+
+            var response = await Http.PostAsJsonAsync("api/chat", request);
+            response.EnsureSuccessStatusCode();
+
+            var chatResponse = await response.Content.ReadFromJsonAsync<TurkAI.Shared.Models.ChatResponse>();
+            if (chatResponse is not null)
+            {
+                _sessionId = chatResponse.SessionId;
+                _messages.Add(new ChatBubble(chatResponse.Reply, IsUser: false));
+                _history.Add(new TurkAI.Shared.Models.ChatMessage("assistant", chatResponse.Reply, DateTimeOffset.UtcNow));
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Failed to get response: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+            await JS.InvokeVoidAsync("scrollToBottom", "chatWindow");
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey)
+            await SendMessage();
+    }
+
+    private record ChatBubble(string Content, bool IsUser);
+}

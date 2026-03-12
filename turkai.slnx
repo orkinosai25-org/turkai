@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TurkAI.API/TurkAI.API.csproj" />
+    <Project Path="src/TurkAI.Functions/TurkAI.Functions.csproj" />
+    <Project Path="src/TurkAI.Shared/TurkAI.Shared.csproj" />
+    <Project Path="src/TurkAI.Web/TurkAI.Web.csproj" />
+  </Folder>
+</Solution>
