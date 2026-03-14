@@ -1,0 +1,167 @@
+@page "/admin/adverts/edit"
+@page "/admin/adverts/edit/{Id}"
+@inject IAdvertService AdvertService
+@inject NavigationManager Nav
+@rendermode InteractiveServer
+
+<PageTitle>TürkiyeAI — @(IsNew ? "New Advert" : "Edit Advert")</PageTitle>
+
+<div class="container my-4" style="max-width: 700px;">
+    <div class="mb-4">
+        <a href="/admin/adverts" class="btn btn-sm btn-outline-secondary mb-3">← Back to Adverts</a>
+        <h1 class="fw-bold">@(IsNew ? "✨ New Advert" : "✏️ Edit Advert")</h1>
+    </div>
+
+    @if (_ad == null)
+    {
+        <p class="text-muted">Loading…</p>
+    }
+    else
+    {
+        <EditForm Model="_ad" OnValidSubmit="SaveAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="alert alert-danger" />
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Ad Content</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+                        <InputText class="form-control" @bind-Value="_ad.Title" placeholder="e.g. Discover Türkiye with AI" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <InputTextArea class="form-control" @bind-Value="_ad.Description" rows="2"
+                                       placeholder="Short supporting text shown alongside the ad" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Call to Action</label>
+                        <InputText class="form-control" @bind-Value="_ad.CallToAction" placeholder="e.g. Learn More" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Target URL <span class="text-danger">*</span></label>
+                        <InputText class="form-control" @bind-Value="_ad.TargetUrl" placeholder="https://example.com or /pricing" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Image URL</label>
+                        <InputText class="form-control" @bind-Value="_ad.ImageUrl" placeholder="https://example.com/banner.png (optional)" />
+                    </div>
+
+                    <hr />
+                    <h5 class="card-title mb-3">Placement &amp; Display</h5>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Advertiser Name</label>
+                            <InputText class="form-control" @bind-Value="_ad.AdvertiserName" placeholder="e.g. TürkiyeAI" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Priority</label>
+                            <InputNumber class="form-control" @bind-Value="_ad.Priority" />
+                            <div class="form-text">Higher numbers show first when multiple ads target the same position.</div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Position</label>
+                            <InputSelect class="form-select" @bind-Value="_ad.Position">
+                                @foreach (var pos in Enum.GetValues<AdvertPosition>())
+                                {
+                                    <option value="@pos">@pos</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Type</label>
+                            <InputSelect class="form-select" @bind-Value="_ad.Type">
+                                @foreach (var type in Enum.GetValues<AdvertType>())
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Start Date (UTC)</label>
+                            <input type="date" class="form-control"
+                                   value="@_ad.StartsAt?.ToString("yyyy-MM-dd")"
+                                   @onchange="e => _ad.StartsAt = ParseDate(e.Value?.ToString())" />
+                            <div class="form-text">Leave blank to show immediately.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">End Date (UTC)</label>
+                            <input type="date" class="form-control"
+                                   value="@_ad.EndsAt?.ToString("yyyy-MM-dd")"
+                                   @onchange="e => _ad.EndsAt = ParseDate(e.Value?.ToString())" />
+                            <div class="form-text">Leave blank for no expiry.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <InputCheckbox class="form-check-input" id="isActive" @bind-Value="_ad.IsActive" />
+                        <label class="form-check-label" for="isActive">Active (visible to users)</label>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end gap-2">
+                    <a href="/admin/adverts" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        @(IsNew ? "Create Advert" : "Save Changes")
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private bool IsNew => string.IsNullOrEmpty(Id);
+    private Advertisement? _ad;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsNew)
+        {
+            _ad = new Advertisement
+            {
+                AdvertiserName = "TürkiyeAI",
+                Position = AdvertPosition.TopBanner,
+                Type = AdvertType.Banner,
+                IsActive = true,
+                Priority = 0,
+                CallToAction = "Learn More",
+            };
+        }
+        else
+        {
+            _ad = await AdvertService.GetByIdAsync(Id!);
+            if (_ad == null)
+                Nav.NavigateTo("/admin/adverts");
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        if (_ad == null) return;
+
+        if (IsNew)
+            await AdvertService.CreateAsync(_ad);
+        else
+            await AdvertService.UpdateAsync(_ad);
+
+        Nav.NavigateTo("/admin/adverts");
+    }
+
+    private static DateTime? ParseDate(string? value)
+        => DateTime.TryParse(value, out var dt) ? DateTime.SpecifyKind(dt, DateTimeKind.Utc) : null;
+}

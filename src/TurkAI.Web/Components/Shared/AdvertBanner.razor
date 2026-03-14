@@ -1,0 +1,49 @@
+@inject IAdvertService AdvertService
+
+@if (_ads.Count > 0)
+{
+    var ad = _ads[0];
+
+    if (ad.Type == AdvertType.Banner)
+    {
+        <div class="advert-banner advert-banner--@Position.ToString().ToLowerInvariant()">
+            <div class="advert-banner__inner d-flex align-items-center gap-3 flex-wrap">
+                <div class="advert-banner__text flex-grow-1">
+                    <span class="advert-label">Sponsored</span>
+                    <strong class="advert-banner__title">@ad.Title</strong>
+                    @if (!string.IsNullOrEmpty(ad.Description))
+                    {
+                        <span class="advert-banner__desc d-none d-md-inline ms-2 text-muted">@ad.Description</span>
+                    }
+                </div>
+                <a href="@ad.TargetUrl" class="btn btn-sm advert-banner__cta">@ad.CallToAction →</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="advert-card card shadow-sm my-3">
+            <div class="card-body">
+                <span class="advert-label">Sponsored</span>
+                <h6 class="card-title mt-1 mb-1">@ad.Title</h6>
+                @if (!string.IsNullOrEmpty(ad.Description))
+                {
+                    <p class="card-text small text-muted mb-2">@ad.Description</p>
+                }
+                <a href="@ad.TargetUrl" class="btn btn-sm btn-outline-primary">@ad.CallToAction →</a>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public AdvertPosition Position { get; set; }
+
+    private IReadOnlyList<Advertisement> _ads = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ads = await AdvertService.GetActiveByPositionAsync(Position);
+    }
+}

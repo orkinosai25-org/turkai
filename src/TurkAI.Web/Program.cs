@@ -14,6 +14,9 @@ builder.Services.AddRazorPages();
 // ── User service (in-memory store; swap for EF Core in production) ────────────
 builder.Services.AddSingleton<IUserService, InMemoryUserService>();
 
+// ── Advert service (in-memory store; swap for EF Core in production) ──────────
+builder.Services.AddSingleton<IAdvertService, InMemoryAdvertService>();
+
 // ── Authentication ────────────────────────────────────────────────────────────
 var authBuilder = builder.Services
     .AddAuthentication(options =>
