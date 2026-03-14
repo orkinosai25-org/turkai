@@ -1,4 +1,5 @@
 using Azure.AI.OpenAI;
+using TurkAI.API.Middleware;
 using TurkAI.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("TurkAICors");
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 

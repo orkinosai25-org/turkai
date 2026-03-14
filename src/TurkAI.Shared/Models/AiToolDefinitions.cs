@@ -116,7 +116,42 @@ public static class AiToolDefinitions
         """)
     );
 
-    /// <summary>All four tools as a list, ready to pass to the OpenAI chat client.</summary>
+    /// <summary>Tool: search hotels and resorts near a Turkish destination with personalised recommendations.</summary>
+    public static ChatTool GetHotelRecommendations { get; } = ChatTool.CreateFunctionTool(
+        functionName: "get_hotel_recommendations",
+        functionDescription: "Find recommended hotels, resorts, and accommodation options near a Turkish destination. Returns options ranked by category (luxury, boutique, budget) with details on vicinity, amenities, and nearby attractions.",
+        functionParameters: BinaryData.FromString("""
+        {
+          "type": "object",
+          "properties": {
+            "destination": {
+              "type": "string",
+              "description": "The Turkish city or region to find hotels near (e.g. 'Antalya', 'Bodrum', 'Cappadocia')."
+            },
+            "category": {
+              "type": "string",
+              "enum": ["luxury", "boutique", "mid-range", "budget", "all"],
+              "description": "Accommodation category filter.",
+              "default": "all"
+            },
+            "interests": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Traveller interests to tailor recommendations (e.g. ['beach','history','spa','golf'])."
+            },
+            "language": {
+              "type": "string",
+              "enum": ["en", "tr"],
+              "description": "Language for the returned information.",
+              "default": "en"
+            }
+          },
+          "required": ["destination"]
+        }
+        """)
+    );
+
+    /// <summary>All tools as a list, ready to pass to the OpenAI chat client.</summary>
     public static IReadOnlyList<ChatTool> All { get; } =
-        [GetTravelInfo, TranslateContent, AnalyseImage, GetVideoInsights];
+        [GetTravelInfo, GetHotelRecommendations, TranslateContent, AnalyseImage, GetVideoInsights];
 }
