@@ -103,3 +103,8 @@
         overflow-y: auto;
     }
 }
+
+.nav-divider {
+    border-color: rgba(255, 255, 255, 0.15);
+    margin: 0.5rem 1rem;
+}

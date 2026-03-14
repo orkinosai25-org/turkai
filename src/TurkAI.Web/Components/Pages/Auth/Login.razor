@@ -1,0 +1,110 @@
+@page "/login"
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<PageTitle>TürkAI — Sign In</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-card card shadow-lg">
+        <div class="auth-card-header text-center mb-4">
+            <div class="auth-logo">🇹🇷</div>
+            <h2 class="fw-bold">Welcome back</h2>
+            <p class="text-muted">Sign in to your TürkAI account</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(_error))
+        {
+            <div class="alert alert-danger" role="alert">@_error</div>
+        }
+
+        <!-- Social sign-in -->
+        <div class="social-buttons mb-4">
+            <a href="@GoogleUrl" class="btn btn-social btn-google w-100 mb-2">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                     width="20" height="20" alt="Google" class="me-2" />
+                Continue with Google
+            </a>
+            <a href="@FacebookUrl" class="btn btn-social btn-facebook w-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     viewBox="0 0 16 16" class="me-2">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                </svg>
+                Continue with Facebook
+            </a>
+            <a href="@LinkedInUrl" class="btn btn-social btn-linkedin w-100 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     viewBox="0 0 16 16" class="me-2">
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                </svg>
+                Continue with LinkedIn
+            </a>
+        </div>
+
+        <div class="divider mb-4">
+            <span>or sign in with email</span>
+        </div>
+
+        <!-- Email/password form -->
+        <form method="post" action="/Account/Login" @onsubmit="OnSubmit">
+            <input type="hidden" name="returnUrl" value="@ReturnUrl" />
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" id="email" name="email" class="form-control"
+                       placeholder="you@example.com" required autocomplete="email"
+                       @bind="_email" />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control"
+                       placeholder="••••••••" required autocomplete="current-password"
+                       @bind="_password" />
+            </div>
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe"
+                           @bind="_rememberMe" />
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="text-decoration-none small">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg mb-3">
+                Sign In
+            </button>
+        </form>
+
+        <div class="text-center">
+            <span class="text-muted">Don't have an account?</span>
+            <a href="/register" class="ms-1 fw-semibold text-decoration-none">Create one free</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery] public string? ReturnUrl { get; set; }
+    [SupplyParameterFromQuery] public string? Error { get; set; }
+
+    private string _email = "";
+    private string _password = "";
+    private bool _rememberMe;
+    private string _error = "";
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrEmpty(Error))
+            _error = Error == "external_auth_failed"
+                ? "Social sign-in failed. Please try again or use email/password."
+                : Error;
+    }
+
+    private string GoogleUrl =>
+        $"/Account/Login?provider=Google&returnUrl={Uri.EscapeDataString(ReturnUrl ?? "/")}";
+    private string FacebookUrl =>
+        $"/Account/Login?provider=Facebook&returnUrl={Uri.EscapeDataString(ReturnUrl ?? "/")}";
+    private string LinkedInUrl =>
+        $"/Account/Login?provider=LinkedIn&returnUrl={Uri.EscapeDataString(ReturnUrl ?? "/")}";
+
+    private void OnSubmit()
+    {
+        // Form posts natively to /Account/Login; JS submit lets us do client-side validation first
+    }
+}
