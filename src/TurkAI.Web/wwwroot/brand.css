@@ -1,0 +1,168 @@
+/* ════════════════════════════════════════════════════════
+   TürkiyeAI  —  Brand Design System
+   ────────────────────────────────────────────────────────
+   Colour palette inspired by:
+   • Turkish national flag  (Atatürk red & white)
+   • Aegean & Mediterranean sea  (Bodrum blues)
+   • İznik tile art  (turquoise & cobalt)
+   • Ottoman mosaic & calligraphy  (gold & ivory)
+   • Anatolian earth & bazaar spices  (terracotta & saffron)
+   • Cappadocian landscape  (stone & sand)
+   ════════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ── Primary: Turkish Flag ───────────────────────────── */
+  --brand-red:              #C8102E;   /* Atatürk Red           */
+  --brand-red-light:        #E8315A;   /* Bright crimson        */
+  --brand-red-dark:         #A0001E;   /* Deep carmine          */
+  --brand-white:            #FFFFFF;
+
+  /* ── Secondary: Aegean & Mediterranean ──────────────── */
+  --brand-aegean:           #1A6B9A;   /* Deep Aegean blue      */
+  --brand-turquoise:        #1E9ABD;   /* İznik tile turquoise  */
+  --brand-turquoise-light:  #40BFCE;   /* Aegean shallow water  */
+  --brand-cobalt:           #1255A4;   /* İznik cobalt blue     */
+  --brand-bosphorus:        #0A2342;   /* Bosphorus deep night  */
+
+  /* ── Accent: Ottoman & Anatolian ────────────────────── */
+  --brand-gold:             #D4A843;   /* Ottoman mosaic gold   */
+  --brand-gold-light:       #F0C96A;   /* Sunlit gold leaf      */
+  --brand-terracotta:       #C0523B;   /* Mediterranean clay    */
+  --brand-saffron:          #E8942A;   /* Spice bazaar orange   */
+  --brand-rose:             #C97B8E;   /* Cappadocian rose      */
+
+  /* ── Warm Neutrals: Sand & Earth ────────────────────── */
+  --brand-sand:             #F5E6C8;   /* Anatolian sand        */
+  --brand-ivory:            #FAF6EE;   /* Ottoman parchment     */
+  --brand-stone:            #8D7B6B;   /* Ancient carved stone  */
+  --brand-earth:            #6B4F3A;   /* Rich Anatolian soil   */
+  --brand-fog:              #F8F4EF;   /* Morning mist          */
+
+  /* ── Dark Neutrals: Night & Shadow ──────────────────── */
+  --brand-night:            #0A1628;   /* Night over Cappadocia */
+  --brand-navy:             #1C3A5E;   /* Aegean evening        */
+  --brand-charcoal:         #2C2C2C;
+
+  /* ── Hero Gradient ───────────────────────────────────── */
+  --brand-hero-gradient:
+    linear-gradient(
+      135deg,
+      var(--brand-red)       0%,
+      #8B2040               40%,
+      var(--brand-navy)      72%,
+      var(--brand-night)    100%
+    );
+
+  /* ── Typography ──────────────────────────────────────── */
+  --brand-font-display: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --brand-font-body:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --brand-font-mono:    'Cascadia Code', 'Fira Code', Consolas, monospace;
+
+  /* ── Spacing & Shape ─────────────────────────────────── */
+  --brand-radius-sm:    0.375rem;
+  --brand-radius-md:    0.75rem;
+  --brand-radius-lg:    1rem;
+  --brand-radius-xl:    1.5rem;
+  --brand-radius-pill:  50rem;
+
+  /* ── Elevation / Shadows ─────────────────────────────── */
+  --brand-shadow-xs:    0 1px 3px  rgba(10, 22, 40, 0.10);
+  --brand-shadow-sm:    0 2px 8px  rgba(10, 22, 40, 0.12);
+  --brand-shadow-md:    0 4px 16px rgba(10, 22, 40, 0.14);
+  --brand-shadow-lg:    0 8px 32px rgba(10, 22, 40, 0.18);
+  --brand-shadow-red:   0 4px 20px rgba(200, 16,  46, 0.30);
+  --brand-shadow-glow:  0 0  32px  rgba(200, 16,  46, 0.20);
+}
+
+/* ── Brand Utility Classes ───────────────────────────────── */
+
+.brand-red        { color: var(--brand-red)        !important; }
+.brand-aegean     { color: var(--brand-aegean)      !important; }
+.brand-gold       { color: var(--brand-gold)        !important; }
+.brand-turquoise  { color: var(--brand-turquoise)   !important; }
+.brand-terracotta { color: var(--brand-terracotta)  !important; }
+
+.bg-brand-red        { background-color: var(--brand-red)        !important; color: white; }
+.bg-brand-aegean     { background-color: var(--brand-aegean)      !important; color: white; }
+.bg-brand-night      { background-color: var(--brand-night)       !important; color: white; }
+.bg-brand-gold       { background-color: var(--brand-gold)        !important; }
+.bg-brand-terracotta { background-color: var(--brand-terracotta)  !important; color: white; }
+.bg-brand-sand       { background-color: var(--brand-sand)        !important; }
+.bg-brand-ivory      { background-color: var(--brand-ivory)       !important; }
+
+/* ── Brand Button Variants ───────────────────────────────── */
+
+.btn-brand-primary {
+  background: var(--brand-red);
+  border-color: var(--brand-red-dark);
+  color: white;
+  box-shadow: var(--brand-shadow-red);
+  transition: background 0.18s, box-shadow 0.18s, transform 0.1s;
+}
+.btn-brand-primary:hover {
+  background: var(--brand-red-light);
+  border-color: var(--brand-red);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(200, 16, 46, 0.38);
+}
+
+.btn-brand-aegean {
+  background: var(--brand-aegean);
+  border-color: var(--brand-bosphorus);
+  color: white;
+}
+.btn-brand-aegean:hover {
+  background: var(--brand-cobalt);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-brand-gold {
+  background: var(--brand-gold);
+  border-color: var(--brand-earth);
+  color: var(--brand-night);
+  font-weight: 700;
+}
+.btn-brand-gold:hover {
+  background: var(--brand-gold-light);
+  color: var(--brand-night);
+}
+
+/* ── Brand Card ──────────────────────────────────────────── */
+
+.card-brand {
+  border: 1px solid rgba(200, 16, 46, 0.12);
+  border-radius: var(--brand-radius-lg);
+  box-shadow: var(--brand-shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-brand:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--brand-shadow-md);
+}
+
+/* ── Turkish Tile Accent Border ──────────────────────────── */
+
+.border-brand-top {
+  border-top: 3px solid;
+  border-image: linear-gradient(
+    90deg,
+    var(--brand-red)        0%,
+    var(--brand-gold)       33%,
+    var(--brand-turquoise)  66%,
+    var(--brand-aegean)    100%
+  ) 1;
+}
+
+.border-brand-bottom {
+  border-bottom: 3px solid;
+  border-image: linear-gradient(
+    90deg,
+    var(--brand-red)        0%,
+    var(--brand-gold)       33%,
+    var(--brand-turquoise)  66%,
+    var(--brand-aegean)    100%
+  ) 1;
+}
