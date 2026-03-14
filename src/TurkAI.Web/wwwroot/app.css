@@ -3,13 +3,30 @@ html, body {
 }
 
 a, .btn-link {
-    color: #006bb7;
+    color: var(--brand-aegean, #1A6B9A);
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: var(--brand-red, #C8102E);
+    border-color: var(--brand-red-dark, #A0001E);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--brand-red-light, #E8315A);
+    border-color: var(--brand-red, #C8102E);
+    color: #fff;
+}
+
+.btn-outline-primary {
+    color: var(--brand-red, #C8102E);
+    border-color: var(--brand-red, #C8102E);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--brand-red, #C8102E);
+    border-color: var(--brand-red, #C8102E);
+    color: #fff;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -58,19 +75,68 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
-/* ── TürkAI custom styles ─────────────────────────────── */
+/* ── TürkiyeAI custom styles ──────────────────────────── */
+
+/* Hero section — uses banner-hero.svg as background with gradient fallback */
 .turkai-hero {
-    background: linear-gradient(135deg, #c8102e 0%, #e8315a 40%, #003087 100%);
+    background:
+        url('/images/banner-hero.svg') center / cover no-repeat,
+        var(--brand-hero-gradient, linear-gradient(135deg, #C8102E 0%, #8B2040 40%, #1C3A5E 72%, #0A1628 100%));
     color: white;
-    padding: 4rem 2rem;
+    padding: 4.5rem 2rem;
     text-align: center;
     border-radius: 0 0 1rem 1rem;
+    position: relative;
+    overflow: hidden;
 }
-.turkai-title { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.02em; }
-.turkai-subtitle { font-size: 1.5rem; opacity: 0.9; margin-bottom: 1rem; }
-.turkai-description { max-width: 600px; margin: 0 auto 2rem; opacity: 0.85; }
+
+/* Ottoman-gold accent strip at base of hero */
+.turkai-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--brand-red,        #C8102E)  0%,
+        var(--brand-gold,       #D4A843) 33%,
+        var(--brand-turquoise,  #1E9ABD) 66%,
+        var(--brand-aegean,     #1A6B9A) 100%
+    );
+}
+
+.turkai-hero-content { position: relative; z-index: 1; }
+
+.turkai-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+.turkai-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.92;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+.turkai-description {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    opacity: 0.85;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
 .turkai-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .feature-icon { font-size: 2.5rem; }
+
+/* Hero logo image */
+.hero-logo {
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.40));
+    max-width: 320px;
+    width: auto;
+}
 
 /* ── Auth pages ───────────────────────────────────────── */
 .auth-page {
@@ -162,7 +228,7 @@ h1:focus {
 }
 
 .pricing-card-featured {
-    border-color: #1b6ec2;
+    border-color: var(--brand-red, #C8102E);
     border-width: 2px;
 }
 
@@ -171,7 +237,7 @@ h1:focus {
     top: -14px;
     left: 50%;
     transform: translateX(-50%);
-    background: #1b6ec2;
+    background: var(--brand-red, #C8102E);
     color: white;
     font-size: 0.75rem;
     font-weight: 700;
@@ -214,7 +280,7 @@ h1:focus {
 .pricing-features li:last-child { border-bottom: none; }
 
 .enterprise-api-section {
-    background: linear-gradient(135deg, #003087 0%, #1b6ec2 100%);
+    background: linear-gradient(135deg, var(--brand-bosphorus, #0A2342) 0%, var(--brand-aegean, #1A6B9A) 100%);
     color: white;
 }
 
@@ -264,7 +330,7 @@ h1:focus {
     font-size: 0.95rem;
     line-height: 1.5;
 }
-.chat-bubble-user { background-color: #c8102e; color: white; border-bottom-right-radius: 0.2rem; }
+.chat-bubble-user { background-color: var(--brand-red, #C8102E); color: white; border-bottom-right-radius: 0.2rem; }
 .chat-bubble-ai   { background-color: #e9ecef; color: #212529; border-bottom-left-radius: 0.2rem; }
 
 /* Typing indicator */

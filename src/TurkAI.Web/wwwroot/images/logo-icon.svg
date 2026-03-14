@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="TürkiyeAI logo icon">
+  <defs>
+    <!-- Turkish red gradient: bright crimson to deep red -->
+    <radialGradient id="icon-bg" cx="28" cy="26" r="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E0244A"/>
+      <stop offset="100%" stop-color="#8B0015"/>
+    </radialGradient>
+    <!-- Soft inner shadow ring -->
+    <filter id="icon-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000033"/>
+    </filter>
+  </defs>
+
+  <!-- Outer badge circle with shadow -->
+  <circle cx="32" cy="32" r="31" fill="url(#icon-bg)" filter="url(#icon-shadow)"/>
+
+  <!-- Decorative inner ring (Ottoman seal motif) -->
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+
+  <!-- White crescent moon (Turkish flag motif) -->
+  <!-- Large white circle -->
+  <circle cx="25" cy="32" r="14" fill="white"/>
+  <!-- Red cutout circle creates the crescent shape -->
+  <circle cx="31" cy="29" r="12" fill="url(#icon-bg)"/>
+
+  <!-- White 5-pointed star -->
+  <!-- Center (47,28), outer r=7, inner r=2.8 -->
+  <polygon
+    points="47,21 48.6,25.7 53.7,25.8 49.7,28.9 51.1,33.7 47,30.8 42.9,33.7 44.3,28.9 40.3,25.8 45.4,25.7"
+    fill="white"/>
+
+  <!-- Subtle decorative ring (dashed inner border) -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1" stroke-dasharray="3 2.5"/>
+</svg>

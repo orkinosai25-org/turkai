@@ -9,7 +9,13 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(
+        180deg,
+        #C8102E  0%,   /* Atatürk Red */
+        #8B2040 35%,   /* Deep carmine */
+        #1C3A5E 70%,   /* Aegean evening */
+        #0A1628 100%   /* Bosphorus night */
+    );
 }
 
 .top-row {

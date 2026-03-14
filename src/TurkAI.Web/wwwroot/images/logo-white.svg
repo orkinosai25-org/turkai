@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="320" height="72" role="img" aria-label="TürkiyeAI">
+  <!-- White version of the full logo — for use on dark backgrounds -->
+
+  <!-- ── Icon badge (56×56) ─────────────────────────────── -->
+  <g transform="translate(8, 8)">
+    <!-- Badge circle: white fill, transparent bg -->
+    <circle cx="28" cy="28" r="27" fill="rgba(255,255,255,0.15)"/>
+    <!-- Inner decorative ring -->
+    <circle cx="28" cy="28" r="25" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="0.9"/>
+    <!-- Crescent: large white circle -->
+    <circle cx="22" cy="28" r="12.5" fill="white"/>
+    <!-- Crescent: transparent cutout -->
+    <circle cx="27" cy="25.5" r="10.5" fill="rgba(255,255,255,0.15)"/>
+    <!-- Star -->
+    <polygon
+      points="41,19 42.4,23.1 46.7,23.1 43.3,25.7 44.5,29.9 41,27.4 37.5,29.9 38.7,25.7 35.3,23.1 39.6,23.1"
+      fill="white"/>
+    <!-- Dashed ring -->
+    <circle cx="28" cy="28" r="26.5" fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="0.9" stroke-dasharray="2.5 2"/>
+  </g>
+
+  <!-- ── Wordmark in white ───────────────────────────────── -->
+  <text
+    x="80" y="44"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="30"
+    font-weight="800"
+    letter-spacing="-0.5"
+    fill="white">Türkiye</text>
+
+  <text
+    x="233" y="44"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="30"
+    font-weight="800"
+    letter-spacing="-0.5"
+    fill="rgba(255,255,255,0.80)">AI</text>
+
+  <!-- Tagline -->
+  <text
+    x="80" y="60"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="10.5"
+    font-weight="400"
+    letter-spacing="0.6"
+    fill="rgba(255,255,255,0.55)">YOUR AI TÜRKİYE TRAVEL EXPERT</text>
+</svg>
