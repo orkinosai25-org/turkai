@@ -72,6 +72,190 @@ h1:focus {
 .turkai-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .feature-icon { font-size: 2.5rem; }
 
+/* ── Auth pages ───────────────────────────────────────── */
+.auth-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9f0fb 100%);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    border: none;
+}
+
+.auth-logo {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    padding: 0.65rem 1rem;
+    transition: opacity 0.15s;
+}
+
+.btn-social:hover { opacity: 0.85; }
+
+.btn-google {
+    background: #fff;
+    color: #3c4043;
+    border: 1px solid #dadce0;
+}
+
+.btn-facebook {
+    background: #1877f2;
+    color: #fff;
+    border: 1px solid #1877f2;
+}
+
+.btn-linkedin {
+    background: #0a66c2;
+    color: #fff;
+    border: 1px solid #0a66c2;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.divider span {
+    background: #fff;
+    padding: 0 1rem;
+    position: relative;
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+/* ── Pricing page ─────────────────────────────────────── */
+.pricing-card {
+    border-radius: 1rem;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: visible;
+}
+
+.pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.12) !important;
+}
+
+.pricing-card-featured {
+    border-color: #1b6ec2;
+    border-width: 2px;
+}
+
+.pricing-popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1b6ec2;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 1rem;
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.pricing-tier-badge {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #495057;
+}
+
+.pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.price-amount {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #212529;
+}
+
+.price-period {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.pricing-features li {
+    padding: 0.35rem 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.pricing-features li:last-child { border-bottom: none; }
+
+.enterprise-api-section {
+    background: linear-gradient(135deg, #003087 0%, #1b6ec2 100%);
+    color: white;
+}
+
+.enterprise-api-section .text-muted { color: rgba(255,255,255,0.7) !important; }
+
+.api-feature-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.1);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.code-snippet {
+    background: rgba(0,0,0,0.3);
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: #a8d8ff;
+}
+
+.enterprise-cta-box {
+    background: rgba(255,255,255,0.1);
+    border-radius: 1rem;
+    color: white;
+}
+
+/* ── Top-bar auth links ───────────────────────────────── */
+.top-row-auth {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 /* Chat bubbles */
 .chat-bubble {
     max-width: 75%;

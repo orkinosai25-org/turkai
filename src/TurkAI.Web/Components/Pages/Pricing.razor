@@ -1,0 +1,230 @@
+@page "/pricing"
+
+<PageTitle>TürkAI — Pricing</PageTitle>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Simple, Transparent Pricing</h1>
+        <p class="lead text-muted">
+            Start free. Scale when you're ready. Enterprise clients can embed TürkAI directly
+            into their own websites via API.
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- Free -->
+        <div class="col-md-4">
+            <div class="card pricing-card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="pricing-tier-badge mb-3">🆓 Free</div>
+                    <div class="pricing-price mb-1">
+                        <span class="price-amount">€0</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <p class="text-muted small mb-4">Perfect for exploring TürkAI</p>
+                    <ul class="pricing-features list-unstyled mb-4 flex-grow-1">
+                        <li>✅ 20 AI chat messages / day</li>
+                        <li>✅ Turkish ↔ English translation</li>
+                        <li>✅ Basic destination recommendations</li>
+                        <li>✅ Image landmark recognition (5/day)</li>
+                        <li>❌ Voice &amp; speech synthesis</li>
+                        <li>❌ Video insights</li>
+                        <li>❌ Priority AI responses</li>
+                        <li>❌ API access</li>
+                    </ul>
+                    <a href="/register?plan=Free" class="btn btn-outline-primary w-100">
+                        Get Started Free
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional -->
+        <div class="col-md-4">
+            <div class="card pricing-card pricing-card-featured h-100 shadow-lg">
+                <div class="pricing-popular-badge">Most Popular</div>
+                <div class="card-body d-flex flex-column">
+                    <div class="pricing-tier-badge mb-3">⭐ Professional</div>
+                    <div class="pricing-price mb-1">
+                        <span class="price-amount">€19</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <p class="text-muted small mb-4">For serious travellers &amp; researchers</p>
+                    <ul class="pricing-features list-unstyled mb-4 flex-grow-1">
+                        <li>✅ Unlimited AI chat messages</li>
+                        <li>✅ Turkish ↔ English translation (unlimited)</li>
+                        <li>✅ Advanced personalised recommendations</li>
+                        <li>✅ Unlimited image analysis</li>
+                        <li>✅ 🔊 Voice &amp; speech synthesis</li>
+                        <li>✅ 🎬 Video URL insights (50/month)</li>
+                        <li>✅ Priority AI responses</li>
+                        <li>✅ History, culture &amp; archaeology deep-dives</li>
+                        <li>❌ API access</li>
+                    </ul>
+                    <a href="/register?plan=Professional" class="btn btn-primary w-100">
+                        Start Professional
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="col-md-4">
+            <div class="card pricing-card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="pricing-tier-badge mb-3">🏢 Enterprise</div>
+                    <div class="pricing-price mb-1">
+                        <span class="price-amount">€99</span>
+                        <span class="price-period">/month</span>
+                    </div>
+                    <p class="text-muted small mb-4">Embed TürkAI on your own website</p>
+                    <ul class="pricing-features list-unstyled mb-4 flex-grow-1">
+                        <li>✅ Everything in Professional</li>
+                        <li>✅ <strong>REST API access</strong> for your websites</li>
+                        <li>✅ <strong>Embeddable chat widget</strong></li>
+                        <li>✅ Custom AI training data uploads</li>
+                        <li>✅ Unlimited video insights</li>
+                        <li>✅ Dedicated support &amp; SLA</li>
+                        <li>✅ Multi-seat team access (up to 10)</li>
+                        <li>✅ Usage analytics dashboard</li>
+                        <li>✅ White-label option</li>
+                    </ul>
+                    <a href="/register?plan=Enterprise" class="btn btn-warning w-100 text-dark fw-bold">
+                        Start Enterprise
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enterprise API section -->
+    <div class="enterprise-api-section mt-5 p-4 rounded-3">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3 class="fw-bold mb-2">🔌 Enterprise API — Power Your Website with TürkAI</h3>
+                <p class="mb-3 text-muted">
+                    Enterprise customers receive a personal API key to integrate TürkAI's
+                    Turkish travel intelligence directly into their hospitality website, travel app,
+                    or concierge service. Let your visitors chat with our AI agent without leaving your site.
+                </p>
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <div class="api-feature-item">
+                            <span class="me-2">💬</span>
+                            <strong>Chat endpoint</strong> — embed the full AI agent
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="api-feature-item">
+                            <span class="me-2">🌍</span>
+                            <strong>Translation API</strong> — real-time TR ↔ EN
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="api-feature-item">
+                            <span class="me-2">📸</span>
+                            <strong>Image analysis</strong> — landmark recognition
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="api-feature-item">
+                            <span class="me-2">🎯</span>
+                            <strong>Recommendations</strong> — personalised for each visitor
+                        </div>
+                    </div>
+                </div>
+                <div class="code-snippet rounded p-3 mb-3">
+                    <code>
+                        POST /api/chat<br />
+                        Authorization: Bearer tk_your_api_key<br />
+                        Content-Type: application/json<br />
+                        <br />
+                        &#123; "message": "Best places to visit in Cappadocia?" &#125;
+                    </code>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="enterprise-cta-box p-4">
+                    <p class="fw-bold mb-1">Need a custom plan?</p>
+                    <p class="text-muted small mb-3">Hotels, tour operators, and travel agencies
+                    contact us for volume pricing.</p>
+                    <a href="mailto:enterprise@turkai.io" class="btn btn-outline-light w-100 mb-2">
+                        Contact Sales
+                    </a>
+                    <a href="/register?plan=Enterprise" class="btn btn-warning w-100 text-dark fw-bold">
+                        Start Enterprise Trial
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-5">
+        <h3 class="fw-bold text-center mb-4">Frequently Asked Questions</h3>
+        <div class="accordion" id="pricingFaq">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Can I switch plans at any time?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#pricingFaq">
+                    <div class="accordion-body">
+                        Yes. You can upgrade or downgrade your plan from your account settings
+                        at any time. Upgrades take effect immediately; downgrades apply at the
+                        next billing cycle.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faq2">
+                        What is the Enterprise API key and how do I use it?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#pricingFaq">
+                    <div class="accordion-body">
+                        After subscribing to the Enterprise plan, your unique API key appears in
+                        your account dashboard. Include it as a Bearer token in the
+                        <code>Authorization</code> header when calling our REST API.
+                        Full API documentation is available to Enterprise subscribers.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Is TürkAI trained on Turkish culture, history, and archaeology?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#pricingFaq">
+                    <div class="accordion-body">
+                        TürkAI is powered by GPT-4o with domain-specific tool calling covering
+                        Turkish resorts, historical sites (Ephesus, Troy, Göbekli Tepe…),
+                        cultural heritage, cuisine, and archaeological discoveries.
+                        Enterprise customers can further extend the knowledge base with
+                        custom training data uploads.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Do you offer a free trial for paid plans?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#pricingFaq">
+                    <div class="accordion-body">
+                        Yes — both the Professional and Enterprise plans include a 14-day free
+                        trial. No credit card required to start.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
