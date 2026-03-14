@@ -345,3 +345,74 @@ h1:focus {
     0%, 60%, 100% { transform: translateY(0); }
     30%           { transform: translateY(-6px); }
 }
+
+/* ── Advert slots ─────────────────────────────────────── */
+.advert-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.4rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Top banner */
+.advert-banner--topbanner {
+    background: linear-gradient(90deg,
+        var(--brand-bosphorus, #0A2342) 0%,
+        var(--brand-aegean, #1A6B9A) 100%);
+    color: #fff;
+    padding: 0.6rem 1.25rem;
+}
+
+.advert-banner--topbanner .advert-label {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.advert-banner--topbanner .advert-banner__title { color: #fff; }
+
+.advert-banner--topbanner .advert-banner__desc { color: rgba(255,255,255,0.75) !important; }
+
+.advert-banner--topbanner .advert-banner__cta {
+    background: var(--brand-gold, #D4A843);
+    color: #1a1a1a;
+    font-weight: 600;
+    border: none;
+    white-space: nowrap;
+}
+
+.advert-banner--topbanner .advert-banner__cta:hover {
+    background: #c49530;
+    color: #1a1a1a;
+}
+
+/* Footer banner */
+.advert-banner--footerbanner {
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 0.6rem 1.25rem;
+}
+
+.advert-banner--footerbanner .advert-banner__cta {
+    background: var(--brand-red, #C8102E);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    white-space: nowrap;
+}
+
+.advert-banner--footerbanner .advert-banner__cta:hover {
+    background: var(--brand-red-dark, #A0001E);
+    color: #fff;
+}
+
+/* Content-middle card */
+.advert-card {
+    border-left: 3px solid var(--brand-aegean, #1A6B9A);
+    background: #f0f7ff;
+}

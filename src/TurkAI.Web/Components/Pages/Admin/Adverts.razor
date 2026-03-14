@@ -1,0 +1,134 @@
+@page "/admin/adverts"
+@inject IAdvertService AdvertService
+@inject NavigationManager Nav
+@rendermode InteractiveServer
+
+<PageTitle>TürkiyeAI — Manage Adverts</PageTitle>
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">📢 Advert Management</h1>
+            <p class="text-muted mb-0">Create and manage advertisements displayed across the platform.</p>
+        </div>
+        <a href="/admin/adverts/edit" class="btn btn-primary">+ New Advert</a>
+    </div>
+
+    @if (_ads == null)
+    {
+        <p class="text-muted">Loading…</p>
+    }
+    else if (_ads.Count == 0)
+    {
+        <div class="alert alert-info">No adverts yet. <a href="/admin/adverts/edit">Create your first advert →</a></div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Advertiser</th>
+                        <th>Position</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Starts</th>
+                        <th>Ends</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ad in _ads)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@ad.Title</strong>
+                                @if (!string.IsNullOrEmpty(ad.Description))
+                                {
+                                    <br /><small class="text-muted">@Truncate(ad.Description, 60)</small>
+                                }
+                            </td>
+                            <td>@ad.AdvertiserName</td>
+                            <td><span class="badge bg-secondary">@ad.Position</span></td>
+                            <td><span class="badge bg-info text-dark">@ad.Type</span></td>
+                            <td>
+                                @if (ad.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-light text-dark border">Inactive</span>
+                                }
+                            </td>
+                            <td>@ad.Priority</td>
+                            <td>@(ad.StartsAt?.ToString("dd MMM yyyy") ?? "—")</td>
+                            <td>@(ad.EndsAt?.ToString("dd MMM yyyy") ?? "—")</td>
+                            <td class="text-end">
+                                <a href="/admin/adverts/edit/@ad.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                <button class="btn btn-sm @(ad.IsActive ? "btn-outline-warning" : "btn-outline-success") me-1"
+                                        @onclick="() => ToggleActiveAsync(ad)">
+                                    @(ad.IsActive ? "Deactivate" : "Activate")
+                                </button>
+                                @if (_pendingDeleteId == ad.Id)
+                                {
+                                    <span class="me-1 small text-danger fw-semibold">Are you sure?</span>
+                                    <button class="btn btn-sm btn-danger me-1" @onclick="() => ConfirmDeleteAsync(ad.Id)">Yes, Delete</button>
+                                    <button class="btn btn-sm btn-outline-secondary" @onclick="CancelDelete">Cancel</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => RequestDelete(ad.Id)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Advertisement>? _ads;
+    private string? _pendingDeleteId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _ads = [.. await AdvertService.GetAllAsync()];
+    }
+
+    private async Task ToggleActiveAsync(Advertisement ad)
+    {
+        ad.IsActive = !ad.IsActive;
+        await AdvertService.UpdateAsync(ad);
+        await LoadAsync();
+    }
+
+    private void RequestDelete(string id)
+    {
+        _pendingDeleteId = id;
+    }
+
+    private void CancelDelete()
+    {
+        _pendingDeleteId = null;
+    }
+
+    private async Task ConfirmDeleteAsync(string id)
+    {
+        _pendingDeleteId = null;
+        await AdvertService.DeleteAsync(id);
+        await LoadAsync();
+    }
+
+    private static string Truncate(string text, int maxLength)
+        => text.Length <= maxLength ? text : text[..maxLength] + "…";
+}
