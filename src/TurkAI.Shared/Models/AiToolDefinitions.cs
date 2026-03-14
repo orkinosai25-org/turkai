@@ -151,7 +151,49 @@ public static class AiToolDefinitions
         """)
     );
 
+    /// <summary>Tool: search travel services (excursions, transfers, packages, car hire, cruises, yachts, private aviation) for a Turkish destination.</summary>
+    public static ChatTool GetTravelServices { get; } = ChatTool.CreateFunctionTool(
+        functionName: "get_travel_services",
+        functionDescription: "Retrieve available travel services for a Turkish destination. Services include: excursions and day-trips, airport transfers, holiday packages, car hire, cruises, private aviation, and yacht/boat charters. Returns descriptive summaries with pricing guidance for each relevant service type.",
+        functionParameters: BinaryData.FromString("""
+        {
+          "type": "object",
+          "properties": {
+            "destination": {
+              "type": "string",
+              "description": "The Turkish destination to look up services for (e.g. 'Bodrum', 'Antalya', 'Cappadocia')."
+            },
+            "service_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["excursions","transfers","packages","cars","cruises","private-aviation","yachts","all"]
+              },
+              "description": "Which service verticals to include. Omit or use ['all'] for everything.",
+              "default": ["all"]
+            },
+            "arrival_airport": {
+              "type": "string",
+              "description": "Optional IATA code of the traveller's arrival airport (e.g. 'AYT', 'BJV', 'DLM') for transfer context."
+            },
+            "budget_level": {
+              "type": "string",
+              "enum": ["budget","mid-range","luxury"],
+              "description": "Optional budget level to tailor suggestions."
+            },
+            "language": {
+              "type": "string",
+              "enum": ["en", "tr"],
+              "description": "Language for the returned information.",
+              "default": "en"
+            }
+          },
+          "required": ["destination"]
+        }
+        """)
+    );
+
     /// <summary>All tools as a list, ready to pass to the OpenAI chat client.</summary>
     public static IReadOnlyList<ChatTool> All { get; } =
-        [GetTravelInfo, GetHotelRecommendations, TranslateContent, AnalyseImage, GetVideoInsights];
+        [GetTravelInfo, GetHotelRecommendations, GetTravelServices, TranslateContent, AnalyseImage, GetVideoInsights];
 }
