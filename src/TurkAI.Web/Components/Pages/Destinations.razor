@@ -1,0 +1,184 @@
+@page "/destinations"
+@inject HttpClient Http
+@inject NavigationManager Nav
+@rendermode InteractiveServer
+
+<PageTitle>TürkiyeAI — Explore Destinations</PageTitle>
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">🗺️ Explore Türkiye</h2>
+            <p class="text-muted">Discover destinations, hotels, and resorts across Türkiye. Click any destination for AI-powered travel and accommodation advice.</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="input-group">
+                <input @bind="_searchQuery" @bind:event="oninput" @onkeydown="HandleSearchKeyDown"
+                       class="form-control form-control-lg"
+                       placeholder="Search destinations, regions, resorts..." />
+                <button class="btn btn-primary" @onclick="SearchDestination" disabled="@_isSearching">
+                    @(_isSearching ? "Searching..." : "🔍 Search")
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if (_searchResult is not null)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">🤖 AI Travel Brief — @_searchResult.Destination</h4>
+                        <p>@_searchResult.Summary</p>
+                        @if (_searchResult.Highlights.Count > 0)
+                        {
+                            <h6 class="fw-semibold mt-3">Top Highlights</h6>
+                            <ul>
+                                @foreach (var h in _searchResult.Highlights)
+                                {
+                                    <li>@h</li>
+                                }
+                            </ul>
+                        }
+                        @if (_searchResult.PracticalTips.Count > 0)
+                        {
+                            <h6 class="fw-semibold mt-3">Practical Tips</h6>
+                            <ul>
+                                @foreach (var t in _searchResult.PracticalTips)
+                                {
+                                    <li>@t</li>
+                                }
+                            </ul>
+                        }
+                        <div class="row mt-3 g-2">
+                            @if (_searchResult.BestTimeToVisit is not null)
+                            {
+                                <div class="col-auto">
+                                    <span class="badge bg-info text-dark">📅 Best time: @_searchResult.BestTimeToVisit</span>
+                                </div>
+                            }
+                        </div>
+                        <a href="/chat" class="btn btn-primary mt-3">
+                            💬 Ask TürkAI More About @_searchResult.Destination
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (_searchError is not null)
+    {
+        <div class="alert alert-danger">@_searchError</div>
+    }
+
+    <!-- Featured destination cards -->
+    <div class="row g-4">
+        @foreach (var dest in _featuredDestinations)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card h-100 shadow-sm destination-card" @onclick="() => SelectDestination(dest.Name)" style="cursor:pointer">
+                    <div class="card-body text-center">
+                        <div class="destination-emoji mb-2" style="font-size:2.5rem">@dest.Emoji</div>
+                        <h5 class="card-title mb-1">@dest.Name</h5>
+                        <p class="card-text text-muted small">@dest.Tagline</p>
+                        <div class="mt-2">
+                            @foreach (var tag in dest.Tags)
+                            {
+                                <span class="badge bg-light text-dark me-1">@tag</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string _searchQuery = string.Empty;
+    private bool _isSearching;
+    private TravelInfoResult? _searchResult;
+    private string? _searchError;
+
+    private static readonly IReadOnlyList<DestinationCard> _featuredDestinations =
+    [
+        new("Istanbul",    "🕌", "Where East meets West",            ["History", "Culture", "Food"]),
+        new("Cappadocia",  "🎈", "Hot-air balloons over fairy chimneys", ["Adventure", "Landscape", "Romance"]),
+        new("Antalya",     "🏖️", "Turkish Riviera gem",               ["Beach", "Luxury", "Resorts"]),
+        new("Bodrum",      "⛵", "Aegean nightlife & pristine bays",   ["Nightlife", "Beach", "Sailing"]),
+        new("Ephesus",     "🏛️", "Ancient Roman city perfectly preserved", ["History", "Archaeology"]),
+        new("Pamukkale",   "♨️", "Cotton-castle thermal terraces",    ["Wellness", "Nature", "Spa"]),
+        new("Trabzon",     "🌿", "Lush Black Sea highlands",          ["Nature", "Hiking", "Culture"]),
+        new("Konya",       "🌀", "Spiritual home of the Whirling Dervishes", ["Spirituality", "Culture"]),
+        new("Fethiye",     "🛥️", "Blue Lagoon & turquoise coast",     ["Beach", "Nature", "Sailing"]),
+        new("Ankara",      "🏛️", "Capital city & Atatürk Mausoleum",  ["History", "Museums", "Culture"]),
+        new("Gallipoli",   "🎖️", "WWI battlefields & memorials",      ["History", "Heritage"]),
+        new("Alanya",      "🏰", "Red Tower & Mediterranean sands",   ["Beach", "History", "Resorts"]),
+    ];
+
+    private async Task SearchDestination()
+    {
+        if (string.IsNullOrWhiteSpace(_searchQuery)) return;
+        _isSearching = true;
+        _searchResult = null;
+        _searchError = null;
+
+        try
+        {
+            var request = new TurkAI.Shared.Models.ChatRequest
+            {
+                Message = $"Give me travel information for {_searchQuery} in Türkiye.",
+                Language = "en",
+                History = []
+            };
+            var response = await Http.PostAsJsonAsync("api/chat", request);
+            response.EnsureSuccessStatusCode();
+            var chatResponse = await response.Content.ReadFromJsonAsync<TurkAI.Shared.Models.ChatResponse>();
+            if (chatResponse is not null)
+            {
+                _searchResult = new TravelInfoResult
+                {
+                    Destination = _searchQuery,
+                    Summary = chatResponse.Reply,
+                    Highlights = [],
+                    PracticalTips = []
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _searchError = $"Could not load destination info: {ex.Message}";
+        }
+        finally
+        {
+            _isSearching = false;
+        }
+    }
+
+    private async Task SelectDestination(string name)
+    {
+        _searchQuery = name;
+        await SearchDestination();
+    }
+
+    private async Task HandleSearchKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") await SearchDestination();
+    }
+
+    private record DestinationCard(string Name, string Emoji, string Tagline, string[] Tags);
+
+    private class TravelInfoResult
+    {
+        public required string Destination { get; init; }
+        public required string Summary { get; init; }
+        public List<string> Highlights { get; init; } = [];
+        public List<string> PracticalTips { get; init; } = [];
+        public string? BestTimeToVisit { get; init; }
+    }
+}
