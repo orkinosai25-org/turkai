@@ -1,5 +1,5 @@
 /**
- * TürkiyeAI Embeddable Chat Widget
+ * TürkiyAI Embeddable Chat Widget
  *
  * Usage (Enterprise plan):
  *   <script src="https://turkai.io/widget.js"
@@ -10,7 +10,7 @@
  *   </script>
  *
  * The widget injects a floating chat button and slide-up panel into the host page.
- * It communicates with the TürkAI REST API using the provided API key.
+ * It communicates with the TürkiyAI REST API using the provided API key.
  */
 (function () {
     'use strict';
@@ -96,13 +96,13 @@
     // ── DOM ───────────────────────────────────────────────────────────────────
     var btn = document.createElement('button');
     btn.className = 'turkai-widget-btn';
-    btn.setAttribute('aria-label', 'Open TürkiyeAI chat');
+    btn.setAttribute('aria-label', 'Open TürkiyAI chat');
     btn.textContent = '🇹🇷';
 
     var panel = document.createElement('div');
     panel.className = 'turkai-widget-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'TürkiyeAI chat');
+    panel.setAttribute('aria-label', 'TürkiyAI chat');
 
     var greeting = LANGUAGE === 'tr'
         ? 'Merhaba! Türkiye seyahati hakkında size nasıl yardımcı olabilirim?'
@@ -110,7 +110,7 @@
 
     panel.innerHTML = [
         '<div class="turkai-widget-header">',
-        '  <span>🇹🇷 TürkiyeAI</span>',
+        '  <span>🇹🇷 TürkiyAI</span>',
         '  <button class="turkai-widget-close" aria-label="Close chat">✕</button>',
         '</div>',
         '<div class="turkai-widget-messages" id="turkai-msgs">',
@@ -126,7 +126,7 @@
         LANGUAGE === 'tr' ? 'Gönder' : 'Send',
         '  </button>',
         '</div>',
-        '<div class="turkai-widget-footer">Powered by <a href="https://turkai.io" target="_blank" rel="noopener">TürkiyeAI</a></div>',
+        '<div class="turkai-widget-footer">Powered by <a href="https://turkai.io" target="_blank" rel="noopener">TürkiyAI</a></div>',
     ].join('');
 
     document.body.appendChild(btn);

@@ -4,7 +4,7 @@
 @inject NavigationManager Nav
 @rendermode InteractiveServer
 
-<PageTitle>TürkiyeAI — @(IsNew ? "New Advert" : "Edit Advert")</PageTitle>
+<PageTitle>TürkiyAI — @(IsNew ? "New Advert" : "Edit Advert")</PageTitle>
 
 <div class="container my-4" style="max-width: 700px;">
     <div class="mb-4">
@@ -58,7 +58,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Advertiser Name</label>
-                            <InputText class="form-control" @bind-Value="_ad.AdvertiserName" placeholder="e.g. TürkiyeAI" />
+                            <InputText class="form-control" @bind-Value="_ad.AdvertiserName" placeholder="e.g. TürkiyAI" />
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Priority</label>
@@ -134,7 +134,7 @@
         {
             _ad = new Advertisement
             {
-                AdvertiserName = "TürkiyeAI",
+                AdvertiserName = "TürkiyAI",
                 Position = AdvertPosition.TopBanner,
                 Type = AdvertType.Banner,
                 IsActive = true,
