@@ -1,6 +1,6 @@
-# 🇹🇷 TürkAI — AI-Powered Turkey Travel Platform
+# 🇹🇷 TürkiyAI — AI-Powered Turkey Travel Platform
 
-TürkAI is a **SaaS AI platform** that makes Türkiye's travel industry smarter. It provides a GPT-4o–powered travel assistant with deep Turkish expertise, integrated with six Azure AI services and deployed on Azure Web Apps + Azure Functions.
+TürkiyAI is a **SaaS AI platform** that makes Türkiye's travel industry smarter. It provides a GPT-4o–powered travel assistant with deep Turkish expertise, integrated with six Azure AI services and deployed on Azure Web Apps + Azure Functions.
 
 ---
 
@@ -185,7 +185,7 @@ The `.github/workflows/azure-deploy.yml` pipeline:
 
 ## MERN Stack Integration
 
-The TürkAI API is a standard REST+JSON API — any frontend (React/Next.js MERN stack, mobile app, or third-party travel site) can call it directly. Use the `process.env` mappings in `local.settings.json` to configure the Functions endpoint for Node.js consumers.
+The TürkiyAI API is a standard REST+JSON API — any frontend (React/Next.js MERN stack, mobile app, or third-party travel site) can call it directly. Use the `process.env` mappings in `local.settings.json` to configure the Functions endpoint for Node.js consumers.
 
 ---
 

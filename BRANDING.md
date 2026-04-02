@@ -1,4 +1,4 @@
-# TürkiyeAI — Brand Guide
+# TürkiyAI — Brand Guide
 
 > AI-Powered Türkiye Travel Platform · Inspired by the beauty, culture, and colours of Türkiye
 
@@ -8,9 +8,9 @@
 
 | Usage | Value |
 |---|---|
-| **Full product name** | TürkiyeAI |
-| **Short / app name** | TürkiyeAI |
-| **Domain slug** | turkiyeai |
+| **Full product name** | TürkiyAI |
+| **Short / app name** | TürkiyAI |
+| **Domain slug** | turkiyai |
 | **Tagline** | Your AI Türkiye Travel Expert |
 
 ---
@@ -172,4 +172,4 @@ This mirrors the journey from the warmth of Anatolia down to the depth of the Ae
 
 ---
 
-*Brand assets © TürkiyeAI. All cultural references are used with respect and appreciation for Turkish heritage.*
+*Brand assets © TürkiyAI. All cultural references are used with respect and appreciation for Turkish heritage.*
