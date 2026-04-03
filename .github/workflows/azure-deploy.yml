@@ -103,7 +103,7 @@ jobs:
   deploy-api:
     name: Deploy API to Azure Web App
     runs-on: ubuntu-latest
-    needs: deploy-infra
+    needs: build-and-test
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment: production
 
@@ -125,7 +125,7 @@ jobs:
   deploy-web:
     name: Deploy Blazor Web to Azure Web App
     runs-on: ubuntu-latest
-    needs: deploy-infra
+    needs: build-and-test
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment: production
 
@@ -147,7 +147,7 @@ jobs:
   deploy-functions:
     name: Deploy Azure Functions
     runs-on: ubuntu-latest
-    needs: deploy-infra
+    needs: build-and-test
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment: production
 
